@@ -1,0 +1,142 @@
+#
+# Sample spy configuration file
+#
+# Any line which has a '#' as the first non-whitespace character is
+# considered to be a comment.  If the '#' symbol occurs anywhere else
+# on the line, it is interpreted literally (i.e. it is not a comment).
+#
+
+#
+#  Change the beep (which is quite loud and annoying under NT)
+#
+#beep aplay $HFS/houdini/config/Audio/Oops.aiff
+
+#
+#  To have spy not complain that you have to hit enter to continue after every
+#  command, uncomment the following line.
+#
+relaxprompt
+
+#
+#  To allow "relaxed" searching (i.e. searching for a string anywhere in a file
+#  instead of searching from the beginning of the filename), uncomment the
+#  following line.
+#
+relaxsearch
+
+#
+#  relaxcase will make sorting case insensitive, while norelaxcase will make
+#  sorting case sensitive.  The default value depends on your operating system,
+#  but it can be changed if you choose.
+#
+#norelaxcase
+relaxcase
+
+#
+#  If the shell that you use doesn't support window titling in the way spy
+#  expects, you should comment this out.
+#
+wintitle
+
+#
+#  Here are some example key mappings
+#
+#map P unix cat % | lp
+#map x unix english(Current tag = %, current dir =) pwd
+#map q quit
+#map h jump	=$HFS/houdini
+#map > jump	:?
+#map < unix_cmd	:?
+#map H patternpick =*.hip
+#map p patternpick =*.pic
+
+map 1   jump =$N1
+map 2	jump =$N2
+map 3	jump =$N3
+map q	quit
+map f   unix    file %
+map ;   unix_cmd
+map g   jump
+map G   unix	gr2_viewer %	
+map ^G	unix	gvim --remote-tab-silent %
+map M	unix	maya %
+map \   right   menu(right)
+map s   setenv
+map Y	take
+map p	pick
+map P	patternpick
+map d	drop
+map [	unix	p4 edit %
+map ]	unix	p4 revert %
+
+# Debug the core file on a Linux system
+map x   unix    gdb `file % | sed "s/.*from '\([^' ]*\).*/\1/"` %
+
+#
+#  Spy has the ability to hide files from the display, this makes the display
+#  cleaner and hides junk - showing only the interesting files.  Here are some
+#  possible masks which can be used (or not).
+
+#
+#  Ignore mask 1 -- show only maya files
+#
+ignoremask *.animation_clip.tft 1
+ignoremask *.gr2 1
+ignoremask *.properties.tft 1
+
+#
+#  Ignore mask 2 - show only animation clips
+#
+ignoremask *.gr2 2
+ignoremask *.ma 2
+ignoremask *.properties.tft 2
+
+#
+#  Ignore mask 3 - show only granny files
+#
+ignoremask *.ma 3
+ignoremask *.animation_clip.tft 3
+ignoremask *.properties.tft 3
+
+#
+#  Specify which ignore masks are implemented on start up.  Specifying a value
+#  of 1 (second number) will turn the mask on by default.
+
+#ignoredefault 1 1
+#ignoredefault 2 1
+ignoredefault 1 0
+ignoredefault 2 0
+ignoredefault 3 0
+
+#  It is also possible to map keys to toggle the ignore mask on and off.
+map <F9>  ignoretoggle =1
+map <F10> ignoretoggle =2
+map <F11> ignoretoggle =3
+
+#
+# Spy can also color code filenames (except when running rlogged in).  The
+# colors can be chosen from:
+#	red, black, white, cyan, blue, purple, green or yellow
+# These colors can also be prefixed with:
+#	reverse_, underline_
+#
+# There are also some special patterns recognized:
+#	-dir	Directory
+#	-x	Executable file
+#	-tagged	All tagged files
+#
+color -dir  yellow 
+color -x    underline_green
+color -tagged underline_green
+color core   blue
+color core.*   blue
+color vgcore.*   blue
+color *.h	purple	
+color *.cpp	cyan
+color *.animation_clip.tft	white
+color *.ma			yellow
+color *.gr2			red
+color *.properties.tft		purple
+
+# Map a key to turn colors on and off
+map C colortoggle
